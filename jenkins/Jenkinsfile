@@ -6,14 +6,14 @@ pipeline {
         stage('Gradle Build') {
            steps {
                sh 'chmod +x gradlew'
-               sh './gradlew build'
+               sh './gradlew clean build'
            }
         } 
         
         stage("Docker build") {
             steps {
                 sh 'docker version'
-                sh 'docker build -t jenkins-test .'
+                sh 'docker build --no-cache -t jenkins-test configuration/docker/'
                 sh 'docker image list'
                 sh 'docker tag jenkins-test fell77/jenkins-test:jenkins-test'
             }
@@ -43,16 +43,16 @@ pipeline {
                     remote.password = 'work'
                     remote.allowAnyHosts = true
                     
-                    echo 'Put k8s-spring-boot-deployment.yml onto k8s master'
-                    sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
+                    echo 'Put k8s-spring-boot-deploy.yml onto k8s master'
+                    sshPut remote: remote, from: 'configuration/k8s/k8s-spring-boot-deploy.yml', into: '.'
                     
                     echo 'Remove deployment and service'
                     sshCommand remote: remote, command: 'kubectl delete deployments.apps --all'
                     sshCommand remote: remote, command: 'kubectl delete service --all'
                     
                     echo 'Deploy spring boot'
-                    sshCommand remote: remote, command: 'chmod +x k8s-spring-boot-deployment.yml'
-                    sshCommand remote: remote, command: "kubectl create -f k8s-spring-boot-deployment.yml"
+                    sshCommand remote: remote, command: 'chmod +x k8s-spring-boot-deploy.yml'
+                    sshCommand remote: remote, command: "kubectl create -f k8s-spring-boot-deploy.yml"
                 }
             }
         }
