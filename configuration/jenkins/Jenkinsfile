@@ -53,6 +53,9 @@ pipeline {
                     echo 'Deploy spring boot'
                     sshCommand remote: remote, command: 'chmod +x k8s-spring-boot-deploy.yml'
                     sshCommand remote: remote, command: "kubectl create -f k8s-spring-boot-deploy.yml"
+                    
+                    echo 'Summary k8s'
+                    sshCommand remote: remote, command: "kubectl get all"
                 }
             }
         }
