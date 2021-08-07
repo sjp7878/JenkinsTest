@@ -3,12 +3,6 @@ properties([pipelineTriggers([githubPush()])])
 pipeline {
     agent any
     stages {
-        stage("Git Clone") {
-            steps {
-                git branch: 'main', credentialsId: 'GITHUB_CREDENTIALS', url: 'https://github.com/sjp7878/JenkinsTest.git'
-            }
-        }
-        
         stage('Gradle Build') {
            steps {
                sh 'chmod +x gradlew'
