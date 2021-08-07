@@ -12,7 +12,7 @@ pipeline {
         
         stage("Docker build") {
             steps {
-                sh 'cd configuration/docker
+                sh 'cd configuration/docker'
                 sh 'docker version'
                 sh 'docker build --no-cache -t jenkins-test .'
                 sh 'docker image list'
