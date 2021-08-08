@@ -10,7 +10,7 @@ public class HelloRestController {
 	
 	@GetMapping(value = "")
 	public String HelloWorld() {
-		return "Welcome to Jenkins Test";
+		return "Welcome Jenkins Test";
 	}
 
 }
