@@ -29,7 +29,7 @@ pipeline {
         
         stage("Push Image to Docker Hub") {
             steps {
-            	sh 'docker image rm -f fell77/jenkins-test'
+            	sh 'docker image rm -f fell77/jenkins-test:jenkins-test'
                 sh 'docker push fell77/jenkins-test:jenkins-test'
             }
         }
